@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas Seguras - Estatus de Adopción</title>
+    <!-- Fuentes e Íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Librería de Confeti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        
+        .navbar-principal { display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 12px 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border-bottom: 1px solid #e2e8f0; }
+        .navbar-logo { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1.25rem; color: #0d9488; text-decoration: none; }
+        .nav-logo-icon { width: 38px; height: 38px; background: #0f172a; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #2dd4bf; font-size: 1rem; }
+        
+        .navbar-menu { display: flex; align-items: center; gap: 25px; }
+        .navbar-menu a { text-decoration: none; color: #475569; font-weight: 500; font-size: 1rem; transition: color 0.2s; }
+        .navbar-menu a:hover, .navbar-menu a.active { color: #0d9488; font-weight: bold; }
+        
+        .user-account { display: flex; align-items: center; gap: 12px; border-left: 2px solid #e2e8f0; padding-left: 20px; }
+        .user-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid #0d9488; }
+        .user-name { font-size: 0.9rem; font-weight: bold; color: #1e293b; }
+        .user-role { font-size: 0.75rem; color: #64748b; }
+        .btn-salir { background: #fee2e2; color: #b91c1c; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: bold; transition: background 0.2s; margin-left: 5px; }
+
+        .estatus-container { max-width: 650px; margin: 60px auto; background: white; padding: 50px 40px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; text-align: center; }
+        .estatus-icono { font-size: 3.5rem; color: #0d9488; margin-bottom: 20px; }
+        .estatus-container h2 { color: #1e293b; margin-bottom: 15px; font-size: 1.8rem; }
+        .estatus-container p { color: #64748b; font-size: 0.95rem; margin-bottom: 25px; }
+
+        .tarjeta-solicitud { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; text-align: left; margin-bottom: 30px; }
+        .tarjeta-solicitud h3 { color: #0d9488; font-size: 1.25rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .tarjeta-solicitud p { color: #475569; margin-bottom: 8px; font-size: 0.95rem; }
+        
+        .estatus-badge { display: inline-block; background: #fef3c7; color: #d97706; padding: 6px 16px; border-radius: 20px; font-weight: bold; font-size: 0.85rem; margin-top: 10px; }
+        .tiempo-entrega { background: #ccfbf1; color: #0f766e; padding: 10px 15px; border-radius: 8px; font-size: 0.9rem; font-weight: 500; margin-top: 15px; display: flex; align-items: center; gap: 10px; }
+
+        .btn-inicio { background-color: #0d9488; color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1rem; transition: background 0.2s; display: inline-block; }
+        .btn-inicio:hover { background-color: #115e59; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar-principal">
+            <a href="inicio_usuario.html" class="navbar-logo">
+                <div class="nav-logo-icon"><i class="fas fa-paw"></i></div>
+                Huellitas Seguras
+            </a>
+            <div class="navbar-menu">
+                <a href="inicio_usuario.html">Inicio</a>
+                <a href="adoptar.html">Catálogo</a>
+                <a href="reportes.html">Reportar Calle</a>
+                <a href="estatus_adopcion.html" class="active">Mi Estatus</a>
+            </div>
+            <div class="user-account">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt="Avatar" class="user-avatar">
+                <div class="user-details">
+                    <span class="user-name">Usuario</span>
+                    <span class="user-role">Adoptante</span>
+                </div>
+                <a href="index.html" class="btn-salir" title="Cerrar Sesión">Salir</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="estatus-container">
+        <div class="estatus-icono"><i class="fas fa-file-lines"></i></div>
+        <h2>Validación de Estatus de Adopción</h2>
+        <p>Aquí puedes consultar el avance y la validación de tus solicitudes recientes en <strong>Huellitas Seguras</strong>.</p>
+        
+        <div class="tarjeta-solicitud">
+            <h3 id="txtMascotaTitulo"><i class="fas fa-paw"></i> Mascota: Cargando...</h3>
+            <p><strong>Solicitante:</strong> <span id="txtUsuario">--</span></p>
+            <p><strong>Fecha de solicitud:</strong> <span id="txtFecha">Hoy</span></p>
+            <div class="estatus-badge"><i class="fas fa-clock"></i> Estatus: En Revisión por el Refugio</div>
+            
+            <div class="tiempo-entrega">
+                <i class="fas fa-truck-fast"></i>
+                <span><strong>Tiempo aprox. de entrega:</strong> 3 a 5 días hábiles tras la aprobación.</span>
+            </div>
+        </div>
+
+        <a href="inicio_usuario.html" class="btn-inicio">Volver al Inicio</a>
+    </main>
+
+    <script>
+        const nombreGuardado = localStorage.getItem('usuarioNombre') || 'Usuario';
+        const spanNombre = document.querySelector('.user-name');
+        if (spanNombre) { spanNombre.textContent = nombreGuardado; }
+
+        // Leer la solicitud específica de este usuario
+        const solicitudGuardada = JSON.parse(localStorage.getItem(`ultimaSolicitud_${nombreGuardado}`));
+
+        if (solicitudGuardada) {
+            document.getElementById('txtMascotaTitulo').innerHTML = `<i class="fas fa-paw"></i> Mascota: ${solicitudGuardada.mascota}`;
+            document.getElementById('txtUsuario').textContent = solicitudGuardada.usuario;
+            document.getElementById('txtFecha').textContent = solicitudGuardada.fecha;
+        } else {
+            document.getElementById('txtMascotaTitulo').innerHTML = `<i class="fas fa-paw"></i> Mascota: Ninguna solicitud activa`;
+            document.getElementById('txtUsuario').textContent = nombreGuardado;
+        }
+
+        function lanzarConfeti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 180,
+                    spread: 100,
+                    origin: { y: 0.5 },
+                    colors: ['#0d9488', '#2dd4bf', '#db2777', '#f59e0b', '#3b82f6']
+                });
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (solicitudGuardada) {
+                lanzarConfeti();
+                setTimeout(lanzarConfeti, 400);
+            }
+        });
+    </script>
+</body>
+</html>

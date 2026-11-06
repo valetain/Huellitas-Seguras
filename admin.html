@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patitas Recicladas - Panel del Comité</title>
+    <link rel="stylesheet" href="estilos.css">
+    <style>
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 0.95rem; }
+        th { background-color: #1e293b; color: white; }
+        tr:hover { background-color: #f8fafc; }
+        .btn-aprobar { background-color: #27ae60; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-rechazar { background-color: #b71c1c; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="inicio_usuario.html" class="logo">🐾 Patitas Recicladas - Comité</a>
+        <div class="nav-links">
+            <a href="inicio_usuario.html">Cerrar Sesión</a>
+        </div>
+    </nav>
+
+    <div class="container" style="max-width: 1100px; margin-top: 40px;">
+        <div class="card">
+            <h2 style="color: #1e293b; margin-bottom: 10px;">📋 Solicitudes de Adopción Recibidas</h2>
+            <p style="color: #64748b; margin-bottom: 20px;">Gestiona y evalúa las peticiones de los usuarios para aprobar o rechazar adopciones.</p>
+            
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Adoptante</th>
+                            <th>Correo</th>
+                            <th>Teléfono</th>
+                            <th>Mascota</th>
+                            <th>Motivo</th>
+                            <th>Estatus</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaSolicitudes">
+                        <!-- Carga dinámica -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const respuesta = await fetch('/admin/solicitudes');
+                const solicitudes = await respuesta.json();
+                
+                const tbody = document.getElementById('tablaSolicitudes');
+                tbody.innerHTML = '';
+
+                if (solicitudes.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: #64748b;">No hay solicitudes registradas.</td></tr>`;
+                    return;
+                }
+
+                solicitudes.forEach(s => {
+                    let colorEstado = '#d97706';
+                    if (s.estado === 'Aprobado') colorEstado = '#27ae60';
+                    if (s.estado === 'Rechazado') colorEstado = '#b71c1c';
+
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${s.id}</td>
+                        <td><strong>${s.nombre_adoptante}</strong></td>
+                        <td>${s.correo}</td>
+                        <td>${s.telefono}</td>
+                        <td>${s.nombre_mascota}</td>
+                        <td>${s.motivo}</td>
+                        <td><span style="color: ${colorEstado}; font-weight: bold;">${s.estado}</span></td>
+                        <td>
+                            <button class="btn-aprobar" onclick="actualizarEstatus(${s.id}, 'Aprobado')">Aprobar</button>
+                            <button class="btn-rechazar" onclick="actualizarEstatus(${s.id}, 'Rechazado')">Rechazar</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (error) {
+                console.error('Error al cargar solicitudes:', error);
+            }
+        });
+
+        async function actualizarEstatus(id, estado) {
+            try {
+                const respuesta = await fetch('/admin/actualizar-estatus', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, estado })
+                });
+
+                const resultado = await respuesta.json();
+                alert(resultado.message);
+                location.reload();
+            } catch (error) {
+                console.error('Error:', error);
+                alert('No se pudo actualizar el estatus.');
+            }
+        }
+    </script>
+</body>
+</html>

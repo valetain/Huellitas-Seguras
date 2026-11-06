@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas Seguras - Solicitud Enviada</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        
+        .navbar-principal { display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 12px 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border-bottom: 1px solid #e2e8f0; }
+        .navbar-logo { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1.25rem; color: #0d9488; text-decoration: none; }
+        .nav-logo-icon { width: 38px; height: 38px; background: #0f172a; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #2dd4bf; font-size: 1rem; }
+        
+        .navbar-menu { display: flex; align-items: center; gap: 25px; }
+        .navbar-menu a { text-decoration: none; color: #475569; font-weight: 500; font-size: 1rem; transition: color 0.2s; }
+        .navbar-menu a:hover { color: #0d9488; }
+        
+        .user-account { display: flex; align-items: center; gap: 12px; border-left: 2px solid #e2e8f0; padding-left: 20px; }
+        .user-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid #0d9488; }
+        .user-details { display: flex; flex-direction: column; line-height: 1.2; }
+        .user-name { font-size: 0.9rem; font-weight: bold; color: #1e293b; }
+        .user-role { font-size: 0.75rem; color: #64748b; }
+        .btn-salir { background: #fee2e2; color: #b91c1c; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: bold; transition: background 0.2s; margin-left: 5px; }
+        .btn-salir:hover { background: #fecaca; }
+
+        .exito-container { max-width: 600px; margin: 80px auto; background: white; padding: 50px 40px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; text-align: center; }
+        .exito-icono { font-size: 4rem; color: #0d9488; margin-bottom: 20px; }
+        .exito-container h2 { color: #1e293b; margin-bottom: 15px; font-size: 1.8rem; }
+        .exito-container p { color: #64748b; margin-bottom: 30px; font-size: 1.05rem; line-height: 1.5; }
+        
+        .btn-grupo-exito { display: flex; justify-content: center; gap: 15px; }
+        .btn-estatus { background-color: #0d9488; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1rem; transition: background 0.2s; }
+        .btn-estatus:hover { background-color: #115e59; }
+        .btn-inicio { background-color: #334155; color: white; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 1rem; transition: background 0.2s; }
+        .btn-inicio:hover { background-color: #1e293b; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar-principal">
+            <a href="inicio_usuario.html" class="navbar-logo">
+                <div class="nav-logo-icon"><i class="fas fa-paw"></i></div>
+                Huellitas Seguras
+            </a>
+            <div class="navbar-menu">
+                <a href="inicio_usuario.html">Inicio</a>
+                <a href="adoptar.html">Catálogo</a>
+                <a href="reportes.html">Reportar Calle</a>
+                <a href="estatus_adopcion.html">Mi Estatus</a>
+            </div>
+            <div class="user-account">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Avatar" class="user-avatar">
+                <div class="user-details">
+                    <span class="user-name">Oliver</span>
+                    <span class="user-role">Adoptante</span>
+                </div>
+                <a href="index.html" class="btn-salir" title="Cerrar Sesión">Salir</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="exito-container">
+        <div class="exito-icono"><i class="fas fa-circle-check"></i></div>
+        <h2>¡Solicitud enviada con éxito!</h2>
+        <p>Hemos recibido correctamente tu postulación para adoptar a <strong id="infoMascota">Ferdinando (Hurón Sable)</strong> en <strong>Huellitas Seguras</strong>. El equipo evaluará tu solicitud a la brevedad.</p>
+        
+        <div class="btn-grupo-exito">
+            <a href="estatus_adopcion.html" id="enlaceEstatus" class="btn-estatus">Ver mi Estatus</a>
+            <a href="inicio_usuario.html" class="btn-inicio">Volver al Inicio</a>
+        </div>
+    </main>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const mascota = urlParams.get('mascota');
+        if (mascota) {
+            document.getElementById('infoMascota').textContent = mascota;
+            document.getElementById('enlaceEstatus').href = `estatus_adopcion.html?mascota=${encodeURIComponent(mascota)}`;
+        }
+
+        const spanNombre = document.querySelector('.user-name');
+        const nombreGuardado = localStorage.getItem('usuarioNombre');
+        if (spanNombre && nombreGuardado) { spanNombre.textContent = nombreGuardado; }
+
+        const avatarImg = document.querySelector('.user-avatar');
+        if (avatarImg && nombreGuardado) {
+            const nombreLower = nombreGuardado.toLowerCase();
+            if (nombreLower.includes('dylan') || nombreLower.includes('oliver') || nombreLower.includes('carlos') || nombreLower.includes('juan')) {
+                avatarImg.src = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80";
+            } else {
+                avatarImg.src = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80";
+            }
+        }
+    </script>
+</body>
+</html>

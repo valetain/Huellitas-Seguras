@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas Seguras - Inicio de Usuario</title>
+    <!-- Fuentes e Íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        
+        /* Barra de Navegación */
+        .navbar-principal { display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 12px 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border-bottom: 1px solid #e2e8f0; }
+        .navbar-logo { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1.25rem; color: #0d9488; text-decoration: none; }
+        .nav-logo-icon { width: 38px; height: 38px; background: #0f172a; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #2dd4bf; font-size: 1rem; }
+        
+        .navbar-menu { display: flex; align-items: center; gap: 25px; }
+        .navbar-menu a { text-decoration: none; color: #475569; font-weight: 500; font-size: 1rem; transition: color 0.2s; }
+        .navbar-menu a:hover, .navbar-menu a.active { color: #0d9488; font-weight: bold; }
+        
+        .user-account { display: flex; align-items: center; gap: 12px; border-left: 2px solid #e2e8f0; padding-left: 20px; }
+        .user-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid #0d9488; }
+        .user-details { display: flex; flex-direction: column; line-height: 1.2; }
+        .user-name { font-size: 0.9rem; font-weight: bold; color: #1e293b; }
+        .user-role { font-size: 0.75rem; color: #64748b; }
+        .btn-salir { background: #fee2e2; color: #b91c1c; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: bold; transition: background 0.2s; margin-left: 5px; }
+        .btn-salir:hover { background: #fecaca; }
+
+        /* Sección Hero de Bienvenida */
+        .hero-section { background: linear-gradient(135deg, #0f172a 0%, #334155 100%); color: white; padding: 60px 20px; text-align: center; }
+        .hero-section h1 { font-size: 2.4rem; margin-bottom: 15px; }
+        .hero-section p { font-size: 1.1rem; color: #94a3b8; max-width: 700px; margin: 0 auto; line-height: 1.6; }
+
+        /* Contenedores de Acceso Rápido */
+        .dashboard-container { max-width: 900px; margin: -40px auto 50px auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+        .card-accion { background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; text-align: center; text-decoration: none; color: #1e293b; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: space-between; }
+        .card-accion:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        .card-icon { font-size: 2.5rem; color: #0d9488; margin-bottom: 15px; }
+        .card-accion h3 { font-size: 1.2rem; margin-bottom: 10px; color: #1e293b; }
+        .card-accion p { font-size: 0.9rem; color: #64748b; line-height: 1.5; margin-bottom: 20px; }
+        
+        .btn-card { background-color: #0d9488; color: white; padding: 10px 20px; border-radius: 8px; font-weight: bold; font-size: 0.9rem; width: 100%; display: block; text-align: center; transition: background 0.2s; }
+        .card-accion:hover .btn-card { background-color: #115e59; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar-principal">
+            <a href="inicio_usuario.html" class="navbar-logo">
+                <div class="nav-logo-icon"><i class="fas fa-paw"></i></div>
+                Huellitas Seguras
+            </a>
+            <div class="navbar-menu">
+                <a href="inicio_usuario.html" class="active">Inicio</a>
+                <a href="adoptar.html">Catálogo</a>
+                <a href="reportes.html">Reportar Calle</a>
+                <a href="donar.html" style="color: #db2777; font-weight: bold;"><i class="fas fa-heart"></i> Donar</a>
+            </div>
+            <div class="user-account">
+                <!-- IMAGEN DE AVATAR NEUTRA Y PROFESIONAL -->
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="Avatar" class="user-avatar">
+                <div class="user-details">
+                    <span class="user-name">Usuario</span>
+                    <span class="user-role">Adoptante</span>
+                </div>
+                <a href="index.html" class="btn-salir" title="Cerrar Sesión">Salir</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero-section">
+        <h1>¡Bienvenida de nuevo, <span id="nombreHero" style="color: #2dd4bf;">Usuario</span>!</h1>
+        <p>Gracias por formar parte de Huellitas Seguras. Explora nuestro catálogo de adopción, apoya causas o reporta animales en situación de calle.</p>
+    </section>
+
+    <!-- Tarjetas de Acceso Rápido con sus respectivos Botones -->
+    <main class="dashboard-container">
+        <a href="adoptar.html" class="card-accion">
+            <div>
+                <div class="card-icon"><i class="fas fa-dog"></i></div>
+                <h3>Catálogo de Adopción</h3>
+                <p>Conoce a nuestras mascotas rescatadas, filtra por necesidades especiales o perros y gatos.</p>
+            </div>
+            <span class="btn-card">Ver Catálogo</span>
+        </a>
+
+        <a href="reportes.html" class="card-accion">
+            <div>
+                <div class="card-icon"><i class="fas fa-triangle-exclamation"></i></div>
+                <h3>Reportar Calle</h3>
+                <p>Informa sobre avistamientos o situaciones de maltrato animal para que nuestro equipo actúe.</p>
+            </div>
+            <span class="btn-card">Hacer Reporte</span>
+        </a>
+
+        <a href="donar.html" class="card-accion">
+            <div>
+                <div class="card-icon" style="color: #db2777;"><i class="fas fa-heart"></i></div>
+                <h3>Donaciones</h3>
+                <p>Apoya económicamente con alimentos, esterilizaciones y atención médica de urgencia.</p>
+            </div>
+            <span class="btn-card" style="background-color: #db2777;">Donar Ahora</span>
+        </a>
+    </main>
+
+    <!-- Script para inyectar el nombre real guardado en localStorage -->
+    <script>
+        const nombreGuardado = localStorage.getItem('usuarioNombre') || 'Usuario';
+        
+        // Actualizar en el menú superior
+        const spanNombre = document.querySelector('.user-name');
+        if (spanNombre) {
+            spanNombre.textContent = nombreGuardado;
+        }
+
+        // Actualizar en el título principal de bienvenida (Hero)
+        const spanHero = document.getElementById('nombreHero');
+        if (spanHero) {
+            spanHero.textContent = nombreGuardado;
+        }
+    </script>
+</body>
+</html>

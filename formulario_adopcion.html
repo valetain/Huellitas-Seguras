@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas Seguras - Solicitud de Adopción</title>
+    <!-- Fuentes e Íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        
+        /* Barra de Navegación */
+        .navbar-principal { display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 12px 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border-bottom: 1px solid #e2e8f0; }
+        .navbar-logo { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1.25rem; color: #0d9488; text-decoration: none; }
+        .nav-logo-icon { width: 38px; height: 38px; background: #0f172a; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #2dd4bf; font-size: 1rem; }
+        
+        .navbar-menu { display: flex; align-items: center; gap: 25px; }
+        .navbar-menu a { text-decoration: none; color: #475569; font-weight: 500; font-size: 1rem; transition: color 0.2s; }
+        .navbar-menu a:hover { color: #0d9488; }
+        
+        .user-account { display: flex; align-items: center; gap: 12px; border-left: 2px solid #e2e8f0; padding-left: 20px; }
+        .user-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid #0d9488; }
+        .user-details { display: flex; flex-direction: column; line-height: 1.2; }
+        .user-name { font-size: 0.9rem; font-weight: bold; color: #1e293b; }
+        .user-role { font-size: 0.75rem; color: #64748b; }
+        .btn-salir { background: #fee2e2; color: #b91c1c; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: bold; transition: background 0.2s; margin-left: 5px; }
+        .btn-salir:hover { background: #fecaca; }
+
+        /* Contenedor del Formulario */
+        .form-container { max-width: 700px; margin: 40px auto; background: white; padding: 40px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; }
+        .form-container h2 { color: #1e293b; margin-bottom: 5px; font-size: 1.6rem; }
+        .subtitulo-solicitud { color: #64748b; font-size: 0.9rem; margin-bottom: 25px; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: #1e293b; font-weight: 600; font-size: 0.9rem; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 11px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem; background-color: #f8fafc; font-family: 'Poppins', sans-serif; }
+        .form-group textarea { resize: vertical; height: 90px; }
+        
+        .info-tiempo { background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 12px 15px; border-radius: 8px; font-size: 0.85rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        
+        /* Alerta de restricción */
+        .alerta-restriccion { display: none; background: #fee2e2; border: 1px solid #fecaca; color: #b91c1c; padding: 20px; border-radius: 10px; text-align: center; margin-bottom: 20px; }
+        .alerta-restriccion h3 { margin-bottom: 10px; font-size: 1.2rem; }
+        .alerta-restriccion p { font-size: 0.9rem; margin-bottom: 15px; }
+        .btn-estatus-link { background-color: #0d9488; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold; display: inline-block; }
+
+        .btn-submit { width: 100%; background-color: #0d9488; color: white; padding: 14px; border: none; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+        .btn-submit:hover { background-color: #115e59; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar-principal">
+            <a href="inicio_usuario.html" class="navbar-logo">
+                <div class="nav-logo-icon"><i class="fas fa-paw"></i></div>
+                Huellitas Seguras
+            </a>
+            <div class="navbar-menu">
+                <a href="inicio_usuario.html">Inicio</a>
+                <a href="adoptar.html">Catálogo</a>
+                <a href="reportes.html">Reportar Calle</a>
+                <a href="estatus_adopcion.html">Mi Estatus</a>
+            </div>
+            <div class="user-account">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt="Avatar" class="user-avatar">
+                <div class="user-details">
+                    <span class="user-name">Usuario</span>
+                    <span class="user-role">Adoptante</span>
+                </div>
+                <a href="index.html" class="btn-salir" title="Cerrar Sesión">Salir</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="form-container">
+        <h2><i class="fas fa-file-signature"></i> Solicitud de Adopción</h2>
+        <p class="subtitulo-solicitud">Estás solicitando la adopción de: <strong id="nombreMascotaTxt" style="color: #0d9488;">Mascota</strong></p>
+        
+        <!-- MENSAJE DE BLOQUEO DE LOS 3 MESES -->
+        <div id="cajaBloqueo" class="alerta-restriccion">
+            <h3><i class="fas fa-triangle-exclamation"></i> Límite de Adopción Activa</h3>
+            <p id="textoBloqueo">Lo sentimos. Debes esperar a que transcurran 3 meses desde tu última adopción para solicitar una nueva mascota.</p>
+            <a href="estatus_adopcion.html" class="btn-estatus-link">Ver mi estatus actual</a>
+        </div>
+
+        <!-- FORMULARIO REAL QUE SE OCULTA SI ESTÁ BLOQUEADO -->
+        <div id="cajaFormulario">
+            <div class="info-tiempo">
+                <i class="fas fa-circle-info" style="font-size: 1.1rem;"></i>
+                <span><strong>Nota importante:</strong> El proceso de entrega toma de <strong>3 a 5 días hábiles</strong> tras la aprobación. Solo se permite una adopción cada 3 meses.</span>
+            </div>
+
+            <form id="formAdopcion">
+                <div class="form-group">
+                    <label for="nombre_completo">Nombre Completo:</label>
+                    <input type="text" id="nombre_completo" name="nombre_completo" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="telefono">Teléfono de Contacto:</label>
+                    <input type="tel" id="telefono" name="telefono" placeholder="Ej. 55 1234 5678" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="vivienda">Tipo de Vivienda y Espacio:</label>
+                    <select id="vivienda" name="vivienda" required>
+                        <option value="" disabled selected>Selecciona una opción...</option>
+                        <option value="Casa propia con patio o jardín amplio">Casa propia con patio o jardín amplio</option>
+                        <option value="Casa sin patio / espacios medianos">Casa sin patio / espacios medianos</option>
+                        <option value="Departamento adaptado para interiores">Departamento adaptado para interiores</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="experiencia">Experiencia previa con mascotas o cuidados especiales:</label>
+                    <textarea id="experiencia" name="experiencia" placeholder="Cuéntanos tu rutina y si conoces sobre cuidados médicos..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">Enviar Solicitud de Adopción</button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const mascota = urlParams.get('mascota');
+        const nombreMascotaReal = mascota ? mascota.replace(/\+/g, ' ') : 'Mascota';
+        
+        document.getElementById('nombreMascotaTxt').textContent = nombreMascotaReal;
+
+        const nombreGuardado = localStorage.getItem('usuarioNombre') || 'Usuario';
+        const spanNombre = document.querySelector('.user-name');
+        if (spanNombre) { spanNombre.textContent = nombreGuardado; }
+        
+        const inputNombreForm = document.getElementById('nombre_completo');
+        if (inputNombreForm) { inputNombreForm.value = nombreGuardado; }
+
+        // VALIDACIÓN DE LOS 3 MESES POR USUARIO
+        const claveFechaUsuario = `fechaUltimaAdopcion_${nombreGuardado}`;
+        const ultimaFechaAdopcion = localStorage.getItem(claveFechaUsuario);
+        
+        if (ultimaFechaAdopcion) {
+            const fechaPasada = new Date(ultimaFechaAdopcion);
+            const fechaActual = new Date();
+            const diferenciaDias = (fechaActual - fechaPasada) / (1000 * 60 * 60 * 24);
+            
+            // Si no han pasado 90 días (3 meses), bloqueamos el formulario y mostramos el aviso
+            if (diferenciaDias < 90) {
+                document.getElementById('cajaFormulario').style.display = 'none';
+                document.getElementById('cajaBloqueo').style.display = 'block';
+                document.getElementById('textoBloqueo').textContent = `Lo sentimos, ${nombreGuardado}. Ya tienes una solicitud en proceso o una adopción reciente. Debes esperar a que transcurran 3 meses para solicitar otra mascota.`;
+            }
+        }
+
+        // Al enviar el formulario correctamente
+        document.getElementById('formAdopcion').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let adoptados = JSON.parse(localStorage.getItem('listaAdoptados')) || [];
+            if (!adoptados.includes(nombreMascotaReal)) {
+                adoptados.push(nombreMascotaReal);
+            }
+            localStorage.setItem('listaAdoptados', JSON.stringify(adoptados));
+            
+            // Registrar fecha de adopción para este usuario exacto
+            localStorage.setItem(claveFechaUsuario, new Date().toISOString());
+
+            // Guardar detalles para la pantalla de estatus
+            const detalleSolicitud = {
+                mascota: nombreMascotaReal,
+                usuario: nombreGuardado,
+                fecha: new Date().toLocaleDateString(),
+                estado: "En revisión por el refugio"
+            };
+            localStorage.setItem(`ultimaSolicitud_${nombreGuardado}`, JSON.stringify(detalleSolicitud));
+
+            window.location.href = 'estatus_adopcion.html';
+        });
+    </script>
+</body>
+</html>

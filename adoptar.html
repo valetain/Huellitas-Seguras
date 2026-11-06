@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Huellitas Seguras - Catálogo de Adopción</title>
+    <!-- Fuentes e Íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        
+        /* Barra de Navegación */
+        .navbar-principal { display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 12px 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); border-bottom: 1px solid #e2e8f0; }
+        .navbar-logo { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1.25rem; color: #0d9488; text-decoration: none; }
+        .nav-logo-icon { width: 38px; height: 38px; background: #0f172a; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #2dd4bf; font-size: 1rem; }
+        
+        .navbar-menu { display: flex; align-items: center; gap: 25px; }
+        .navbar-menu a { text-decoration: none; color: #475569; font-weight: 500; font-size: 1rem; transition: color 0.2s; }
+        .navbar-menu a:hover, .navbar-menu a.active { color: #0d9488; font-weight: bold; }
+        
+        .user-account { display: flex; align-items: center; gap: 12px; border-left: 2px solid #e2e8f0; padding-left: 20px; }
+        .user-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid #0d9488; }
+        .user-details { display: flex; flex-direction: column; line-height: 1.2; }
+        .user-name { font-size: 0.9rem; font-weight: bold; color: #1e293b; }
+        .user-role { font-size: 0.75rem; color: #64748b; }
+        .btn-salir { background: #fee2e2; color: #b91c1c; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: bold; transition: background 0.2s; margin-left: 5px; }
+        .btn-salir:hover { background: #fecaca; }
+
+        /* Encabezado del Catálogo */
+        .hero-catalogo { background: linear-gradient(135deg, #0f172a 0%, #334155 100%); color: white; padding: 45px 20px; text-align: center; }
+        .hero-catalogo h1 { font-size: 2.2rem; margin-bottom: 10px; }
+        .hero-catalogo p { font-size: 1.05rem; color: #94a3b8; }
+
+        /* Botones de Filtro por Categoría (DOM) */
+        .filtros-container { max-width: 1200px; margin: 30px auto 0 auto; padding: 0 20px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .btn-filtro { background: white; border: 2px solid #cbd5e1; color: #475569; padding: 10px 22px; border-radius: 30px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
+        .btn-filtro:hover, .btn-filtro.active-filtro { background: #0d9488; color: white; border-color: #0d9488; }
+
+        /* Contenedor de Tarjetas */
+        .catalogo-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+        .seccion-titulo { color: #1e293b; margin: 40px 0 20px 0; font-size: 1.5rem; border-left: 4px solid #0d9488; padding-left: 12px; }
+        
+        .animales-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; margin-bottom: 30px; }
+        .animal-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; transition: transform 0.2s; }
+        .animal-card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
+        .animal-img { width: 100%; height: 200px; object-fit: cover; }
+        .animal-body { padding: 20px; }
+        
+        .badge-animal { display: inline-block; background: #ccfbf1; color: #0f766e; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px; }
+        .badge-especial { display: inline-block; background: #fef3c7; color: #d97706; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-bottom: 10px; }
+        
+        .btn-grupo { display: flex; gap: 10px; margin-top: 15px; }
+        .btn-ver { flex: 1; background-color: #334155; color: white; text-align: center; padding: 10px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.9rem; cursor: pointer; border: none; }
+        .btn-ver:hover { background-color: #1e293b; }
+        .btn-adoptar { flex: 1; background-color: #0d9488; color: white; text-align: center; padding: 10px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.9rem; }
+        .btn-adoptar:hover { background-color: #115e59; }
+
+        /* Estilos del Modal */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
+        .modal-content { background: white; max-width: 500px; width: 100%; padding: 30px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); position: relative; animation: fadeIn 0.2s ease-in-out; }
+        .modal-close { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: #64748b; cursor: pointer; background: none; border: none; }
+        .modal-close:hover { color: #1e293b; }
+        .modal-title { color: #0d9488; font-size: 1.5rem; margin-bottom: 10px; }
+        .modal-info { color: #475569; font-size: 0.95rem; margin-bottom: 15px; line-height: 1.6; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="navbar-principal">
+            <a href="inicio_usuario.html" class="navbar-logo">
+                <div class="nav-logo-icon"><i class="fas fa-paw"></i></div>
+                Huellitas Seguras
+            </a>
+            <div class="navbar-menu">
+                <a href="inicio_usuario.html">Inicio</a>
+                <a href="adoptar.html" class="active">Catálogo</a>
+                <a href="reportes.html">Reportar Calle</a>
+                <a href="estatus_adopcion.html">Mi Estatus</a>
+            </div>
+            <div class="user-account">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=100&q=80" alt="Avatar" class="user-avatar">
+                <div class="user-details">
+                    <span class="user-name">Usuario</span>
+                    <span class="user-role">Adoptante</span>
+                </div>
+                <a href="index.html" class="btn-salir" title="Cerrar Sesión">Salir</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="hero-catalogo">
+        <h1>🐾 Catálogo de Adopción</h1>
+        <p>Filtra por categorías de apoyo emocional, necesidades especiales y rescates generales.</p>
+    </div>
+
+    <!-- BOTONES DE FILTRADO POR CATEGORÍA (DOM) -->
+    <div class="filtros-container">
+        <button class="btn-filtro active-filtro" onclick="filtrarTipo('todos', this)">🐾 Mostrar Todos (20)</button>
+        <button class="btn-filtro" onclick="filtrarTipo('especial', this)">🌟 Apoyo Emocional y Discapacidad (10)</button>
+        <button class="btn-filtro" onclick="filtrarTipo('rescate', this)">🐾 Rescates Generales (10)</button>
+    </div>
+
+    <main class="catalogo-container">
+        
+        <!-- SECCIÓN 1: APOYO EMOCIONAL Y DISCAPACIDAD (10) -->
+        <div class="seccion-grupo" id="seccionEspecial">
+            <h2 class="seccion-titulo">🌟 Apoyo Emocional y Necesidades Especiales (10)</h2>
+            <div class="animales-grid">
+                
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=500&q=80" alt="Bruno" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-especial">🦮 Apoyo Emocional</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Bruno</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">3 años • Labrador noble, ideal para acompañamiento contra la ansiedad.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Bruno', '3 años', 'Labrador Retriever', 'Vacunas completas y entrenado en soporte emocional.', 'Paseos diarios y espacio cálido.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Bruno" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=500&q=80" alt="Káiser" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-especial">♿ Movilidad Reducida</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Káiser</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">4 años • Perrito con carrito adaptado, muy amoroso y activo.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Káiser', '4 años', 'Mestizo', 'Revisión ortopédica completa, carrito especializado incluido.', 'Superficies planas en casa.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Kaiser" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=500&q=80" alt="Milka" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-especial">🐾 Cuidados Especiales (Sorda)</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Milka</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">2 años • Gatita sorda, se comunica excelente por señas y luces.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Milka', '2 años', 'Felina', 'Esterilizada, vacunada y adaptada a comunicación visual.', 'Hogar exclusivo de interiores.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Milka" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?auto=format&fit=crop&w=500&q=80" alt="Toby" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-especial">🦮 Terapia Emocional</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Toby</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">5 años • Beagle entrenado para brindar soporte emocional.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Toby', '5 años', 'Beagle', 'Vacunado y certificado con temperamento apacible.', 'Juegos de olfato y caminatas tranquilas.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Toby" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1561948955-570b270e7c36?auto=format&fit=crop&w=500&q=80" alt="Nala" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-especial">🐾 Discapacidad Visual</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Nala</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">3 años • Gatita invidente muy adaptada, guiada por el olfato.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Nala', '3 años', 'Gatita Doméstica', 'Excelente sentido del oído y olfato.', 'No cambiar los muebles de lugar.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Nala" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=500&q=80" alt="Sultán" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-especial">🦮 Asistencia Calmante</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Sultán</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">4 años • Pastor alemán rescatado con temperamento sereno.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Sultán', '4 años', 'Pastor Alemán', 'Entrenado en obediencia básica y control de impulsos.', 'Requiere casa con patio.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Sultan" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=500&q=80" alt="Lola" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-especial">🐾 Cuidados Especiales</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Lola</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">2 años • Perrita mini con tratamiento controlado de epilepsia.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Lola', '2 años', 'Perrita Mini', 'Bajo control veterinario periódico y medicamento controlado.', 'Constancia con horarios de medicina.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Lola" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1535930891776-0c2dfb7fda1a?auto=format&fit=crop&w=500&q=80" alt="Simba" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-especial">🌟 Apoyo Psicológico</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Simba</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">6 años • Gato senior muy cariñoso, excelente terapeuta de hogar.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Simba', '6 años', 'Gato Senior', 'Revisión geriátrica favorable.', 'Ideal para departamentos.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Simba" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=500&q=80" alt="Roco" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-especial">♿ Trx. Tren Posterior</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Roco</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">3 años • Usador experto de carrito para correr en parques.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Roco', '3 años', 'Mestizo', 'Fuerte, rehabilitado y con carrito adaptado.', 'Le encanta correr en áreas verdes.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Roco" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1444212477490-ca4079253213?auto=format&fit=crop&w=500&q=80" alt="Maya" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-especial">🦮 Compañía Emocional</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Maya</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">2 años • Golden retriever noble, excelente con niños y adultos.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Maya', '2 años', 'Golden Retriever', 'Esterilizada y con temperamento dulce.', 'Cepillado regular.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Maya" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- SECCIÓN 2: RESCATES GENERALES (10) -->
+        <div class="seccion-grupo" id="seccionRescate">
+            <h2 class="seccion-titulo">🐾 Rescates Recientes y Mascotas (10)</h2>
+            <div class="animales-grid">
+                
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=500&q=80" alt="Luna" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-animal">🐱 Felina Rescatada</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Luna</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">1 año • Gata mediana muy tranquila y educada en hogar temporal.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Luna', '1 año', 'Felina', 'Esterilizada y vacunada.', 'Hogar tranquilo.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Luna" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?auto=format&fit=crop&w=500&q=80" alt="Max" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-animal">🐶 Perro Mediano</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Max</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">2 años • Bulldog francés, guardián amoroso y excelente compañero.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Max', '2 años', 'Bulldog francés', 'Sano, desparasitado y muy amigable.', 'Paseos moderados.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Max" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&w=500&q=80" alt="Simón" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-animal">🐱 Gato Cachorro</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Simón</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">8 meses • Muy activo, juguetón y sociable con otros gatos.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Simón', '8 meses', 'Gato Cachorro', 'Vacunas de cachorro al corriente.', 'Espacio para jugar.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Simon" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=500&q=80" alt="Kira" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-animal">🐶 Cachorra Activa</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Kira</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">1 año • Hermosa perrita mestiza, muy enérgica y alegre.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Kira', '1 año', 'Mestiza', 'Desparasitada y con cartilla de vacunación.', 'Ideal para familias activas.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Kira" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?auto=format&fit=crop&w=500&q=80" alt="Dexter" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-animal">🐱 Gato Adulto</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Dexter</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">2 años • Gato gris muy tranquilo, rescate de hogar múltiple.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Dexter', '2 años', 'Gato', 'Castrado y con excelente salud.', 'Hogar tranquilo.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Dexter" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1535268647677-300dbf3d78d1?auto=format&fit=crop&w=500&q=80" alt="Lili" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-animal">🐶 Poodle Mini</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Lili</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">1 año • Perrita muy sociable, amigable y de baja estatura.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Lili', '1 año', 'Poodle Mini', 'Vacunada y esterilizada.', 'Ideal para departamentos.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Lili" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BIMBA CON IMAGEN NUEVA Y CORREGIDA -->
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=500&q=80" alt="Bimba" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-animal">🐱 Gata Calico</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Bimba</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">1.5 años • Muy curiosa, cariñosa y de hermosos colores.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Bimba', '1.5 años', 'Gata Calico', 'Salud óptima y desparasitada.', 'Ambiente hogareño.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Bimba" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&w=500&q=80" alt="Zeus" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-animal">🐶 Husky Rescatado</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Zeus</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">2 años • Ojos azules, pelaje hermoso y muy enérgico.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Zeus', '2 años', 'Husky Siberiano', 'Historial médico completo.', 'Requiere dueños con experiencia y espacio activo.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Zeus" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?auto=format&fit=crop&w=500&q=80" alt="Cleo" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-animal">🐱 Gata Naranja</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Cleo</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">1 año • Muy juguetona, sociable y llena de energía.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Cleo', '1 año', 'Gata', 'Revisión veterinaria aprobada.', 'Compañía constante.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Cleo" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="animal-card">
+                    <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=500&q=80" alt="Chester" class="animal-img">
+                    <div class="animal-body">
+                        <span class="badge-animal">🐶 Cachorro Mestizo</span>
+                        <h3 style="color: #1e293b; margin-bottom: 5px;">Chester</h3>
+                        <p style="color: #64748b; font-size: 0.85rem; margin-bottom: 15px;">6 meses • Muy tierno, amigable y listo para crecer en familia.</p>
+                        <div class="btn-grupo">
+                            <button class="btn-ver" onclick="mostrarDetalles('Chester', '6 meses', 'Cachorro', 'Vacunas iniciales y desparasitación.', 'Educación inicial en casa.')">Ver más</button>
+                            <a href="formulario_adopcion.html?mascota=Chester" class="btn-adoptar">Adoptar</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- VENTANA MODAL PARA MOSTRAR DETALLES -->
+    <div id="modalDetalles" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" onclick="cerrarDetalles()">&times;</button>
+            <h2 id="modalNombre" class="modal-title">Nombre</h2>
+            <p><strong>Edad:</strong> <span id="modalEdad"></span></p>
+            <p><strong>Raza / Especie:</strong> <span id="modalRaza"></span></p>
+            <p class="modal-info"><strong>Historial Médico y Temperamento:</strong><br><span id="modalSalud"></span></p>
+            <p class="modal-info"><strong>Requerimientos Especiales:</strong><br><span id="modalCuidados"></span></p>
+        </div>
+    </div>
+
+    <!-- Scripts de Funcionalidad, Filtros y Ocultamiento de Adoptados -->
+    <script>
+        function mostrarDetalles(nombre, edad, raza, salud, cuidados) {
+            document.getElementById('modalNombre').textContent = nombre;
+            document.getElementById('modalEdad').textContent = edad;
+            document.getElementById('modalRaza').textContent = raza;
+            document.getElementById('modalSalud').textContent = salud;
+            document.getElementById('modalCuidados').textContent = cuidados;
+            document.getElementById('modalDetalles').style.display = 'flex';
+        }
+
+        function cerrarDetalles() {
+            document.getElementById('modalDetalles').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('modalDetalles');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Función para filtrar y mantener las secciones separadas
+        function filtrarTipo(tipo, btn) {
+            document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('active-filtro'));
+            btn.classList.add('active-filtro');
+
+            const secEspecial = document.getElementById('seccionEspecial');
+            const secRescate = document.getElementById('seccionRescate');
+
+            if (tipo === 'todos') {
+                secEspecial.style.display = 'block';
+                secRescate.style.display = 'block';
+            } else if (tipo === 'especial') {
+                secEspecial.style.display = 'block';
+                secRescate.style.display = 'none';
+            } else if (tipo === 'rescate') {
+                secEspecial.style.display = 'none';
+                secRescate.style.display = 'block';
+            }
+        }
+
+        // Sincronizar nombre de usuario activo dinámicamente
+        const nombreGuardado = localStorage.getItem('usuarioNombre') || 'Usuario';
+        const spanNombre = document.querySelector('.user-name');
+        if (spanNombre) { spanNombre.textContent = nombreGuardado; }
+
+        // Ocultar automáticamente SOLO las mascotas que ya han sido adoptadas
+        const mascotasAdoptadas = JSON.parse(localStorage.getItem('listaAdoptados')) || [];
+        document.querySelectorAll('.animal-card').forEach(tarjeta => {
+            const nombreAnimal = tarjeta.querySelector('h3').textContent.trim();
+            if (mascotasAdoptadas.includes(nombreAnimal)) {
+                tarjeta.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
